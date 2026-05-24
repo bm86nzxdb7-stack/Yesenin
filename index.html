@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Цветопись в поэзии Есенина — Тренажёр</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4ede2;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #5c3a21;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        .subtitle {
+            font-style: italic;
+            margin-bottom: 25px;
+            color: #555;
+            text-align: center;
+            max-width: 600px;
+        }
+
+        /* Палитра */
+        .palette-container {
+            text-align: center;
+            margin-bottom: 25px;
+            background: #fff;
+            padding: 15px 30px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+        
+        .palette-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .palette {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .color-sample {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid #ddd;
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .color-sample:hover {
+            transform: scale(1.15);
+        }
+
+        .color-sample.selected {
+            border-color: #000;
+            box-shadow: 0 0 8px rgba(0,0,0,0.3);
+            transform: scale(1.15);
+        }
+
+        /* Главный контейнер */
+        .main-container {
+            display: flex;
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        /* Контейнер для иллюстрации */
+        .illustration-container {
+            background: #fff;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            flex: 1.8;
+            max-width: 750px;
+        }
+
+        /* Интерактивные элементы SVG */
+        .coloring-layer {
+            cursor: pointer;
+            fill: #ffffff;
+            stroke: #222;
+            stroke-width: 1.5;
+            stroke-linejoin: round;
+            stroke-linecap: round;
+            transition: fill 0.3s ease;
+        }
+        
+        .coloring-layer:hover {
+            opacity: 0.85;
+        }
+
+        /* Статичные линии рисунка */
+        .static-line {
+            stroke: #222;
+            stroke-width: 1.5;
+            fill: none;
+            pointer-events: none;
+        }
+        
+        .static-fill {
+            fill: #222;
+            pointer-events: none;
+        }
+
+        /* Правая панель с цитатами */
+        .quotes-container {
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            flex: 1;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .quote-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .target-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px dashed #aaa;
+            background-color: #fff;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .quote-input {
+            flex-grow: 1;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .quote-input:focus {
+            border-color: #5c3a21;
+            box-shadow: 0 0 5px rgba(92, 58, 33, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Анализ цветописи: «Отговорила роща золотая...»</h1>
+    <div class="subtitle">
+        Найдите в палитре 5 цветов, которые упоминаются в тексте стихотворения. Закрасьте маркеры справа, впишите цитаты и раскрасьте иллюстрацию. Остерегайтесь лишних цветов!
+    </div>
+
+    <div class="palette-container">
+        <div class="palette-title">Палитра (выберите цвет)</div>
+        <div class="palette" id="palette">
+            <div class="color-sample" style="background-color: #e5b80b;" data-color="#e5b80b" title="Золотой"></div>
+            <div class="color-sample" style="background-color: #7097d1;" data-color="#7097d1" title="Голубой"></div>
+            <div class="color-sample" style="background-color: #b57edc;" data-color="#b57edc" title="Сиреневый"></div>
+            <div class="color-sample" style="background-color: #d32f2f;" data-color="#d32f2f" title="Красный"></div>
+            <div class="color-sample" style="background-color: #fff176;" data-color="#fff176" title="Желтый"></div>
+            
+            <div class="color-sample" style="background-color: #1a237e;" data-color="#1a237e" title="Темно-синий"></div>
+            <div class="color-sample" style="background-color: #4a148c;" data-color="#4a148c" title="Фиолетовый"></div>
+            <div class="color-sample" style="background-color: #2e7d32;" data-color="#2e7d32" title="Зеленый"></div>
+            <div class="color-sample" style="background-color: #ff8f00;" data-color="#ff8f00" title="Оранжевый"></div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="illustration-container">
+            <svg viewBox="0 0 900 400" width="100%" height="100%">
+                <rect class="coloring-layer" x="0" y="0" width="900" height="230" data-part="sky"/>
+                
+                <path class="coloring-layer" d="M 545,30 A 35,35 0 0,0 545,90 A 28,28 0 0,1 545,30 Z" data-part="moon" />
+                
+                <g class="static-fill">
+                    <path d="M 660,103 Q 652,102 645,107 Q 655,108 660,103 Z M 650,105 L 640,97 L 644,105 L 634,111 Z"/>
+                    <path d="M 730,85 Q 722,83 715,88 Q 725,90 730,85 Z M 720,87 L 712,77 L 715,86 L 705,91 Z"/>
+                    <path d="M 790,92 Q 782,88 775,94 Q 785,95 790,92 Z M 780,93 L 773,83 L 776,92 L 766,96 Z"/>
+                    <path d="M 810,121 Q 803,116 795,122 Q 805,123 810,121 Z M 800,121 L 795,110 L 797,120 L 787,123 Z"/>
+                    <path d="M 850,77 Q 843,73 835,78 Q 845,80 850,77 Z M 840,77 L 836,68 L 838,76 L 829,79 Z"/>
+                    <path d="M 865,121 Q 859,116 852,121 Q 860,123 865,121 Z M 857,121 L 853,112 L 855,120 L 847,122 Z"/>
+                    <path d="M 890,93 L 885,89 L 887,93 L 882,95 Z M 895,92 Q 891,89 885,93 Q 891,95 895,92 Z"/>
+                </g>
+
+                <rect class="coloring-layer" x="0" y="230" width="900" height="170" data-part="ground"/>
+
+                <path class="coloring-layer" d="M 10,300 C -10,250 10,180 50,150 C 90,110 160,100 210,110 C 270,90 340,110 380,130 C 430,110 500,140 520,180 C 550,210 550,260 520,300 L 520,310 L 10,310 Z" data-part="birch-grove-leaves"/>
+
+                <path d="M 90,340 C 92,260 90,180 94,130 L 102,130 C 98,190 101,260 99,340 Z" fill="#fff" stroke="#222" stroke-width="1.5"/>
+                <path d="M 90,320 L 96,320 M 93,280 L 98,278 M 101,240 L 96,242 M 91,190 L 94,191 M 102,160 L 97,161 M 91,145 L 94,146" class="static-line"/>
+                <path d="M 94,160 L 78,180 M 78,180 L 68,175 M 78,180 L 74,195" class="static-line"/>
+                <path d="M 91,220 L 53,240 M 53,240 L 41,230 M 53,240 L 47,255" class="static-line"/>
+                
+                <path d="M 125,350 C 124,280 126,210 123,150 L 131,150 C 134,210 132,280 134,350 Z" fill="#fff" stroke="#222" stroke-width="1.5"/>
+                <path d="M 125,330 L 130,331 M 133,295 L 127,297 M 124,250 L 129,249 M 132,200 L 126,201 M 124,170 L 128,169" class="static-line"/>
+                
+                <path d="M 215,385 C 220,310 223,230 221,110 L 233,110 C 235,230 231,310 240,385 Z" fill="#fff" stroke="#222" stroke-width="1.5"/>
+                <path d="M 216,360 L 225,358 M 238,330 L 228,333 M 219,290 L 226,291 M 235,250 L 227,252 M 220,200 L 229,198 M 233,160 L 224,161 M 221,130 L 227,131" class="static-line"/>
+                <path d="M 222,150 L 188,125 M 188,125 L 195,112 M 188,125 L 178,135" class="static-line"/>
+                <path d="M 231,170 L 265,145 M 265,145 L 260,132 M 265,145 L 278,150" class="static-line"/>
+                
+                <path d="M 170,300 L 175,270 L 182,300 M 275,300 L 280,265 L 288,300 M 410,300 L 418,260 L 425,300" fill="#fff" stroke="#222" stroke-width="1.5"/>
+                
+                <path d="M 445,340 L 443,150 L 450,150 L 454,340 Z" fill="#fff" stroke="#222" stroke-width="1.5"/>
+                <path d="M 444,310 L 448,311 M 451,270 L 446,272 M 444,220 L 449,221 M 449,175 L 445,176" class="static-line"/>
+                <path d="M 444,190 L 425,160 M 425,160 L 429,148 M 425,160 L 412,165" class="static-line"/>
+
+                <path d="M 465,365 C 466,300 464,220 468,135 L 476,135 C 472,220 475,300 478,365 Z" fill="#fff" stroke="#222" stroke-width="1.5"/>
+                <path d="M 466,340 L 472,339 M 476,290 L 470,292 M 467,240 L 473,238 M 474,180 L 469,182 M 468,150 L 473,151" class="static-line"/>
+                <path d="M 474,175 L 500,155 M 500,155 L 493,145 M 500,155 L 512,162" class="static-line"/>
+                <path d="M 469,215 L 440,195 M 440,195 L 443,185 M 440,195 L 431,202" class="static-line"/>
+
+
+                <path class="coloring-layer" d="M 522,400 C 530,370 570,360 620,355 C 740,340 850,350 900,365 L 900,400 Z" data-part="pond"/>
+                
+                <path d="M 680,370 L 710,370 M 740,362 L 770,362 M 800,380 L 820,380 M 630,385 L 650,385" stroke="#222" stroke-width="1.5"/>
+
+                <path class="coloring-layer" d="M 605,395 L 610,345 L 615,395 Z" data-part="grass-pond"/>
+                <path d="M 595,380 Q 610,355 625,390 M 585,395 Q 610,340 600,395 M 620,395 Q 628,345 640,380" class="static-line"/>
+                <rect x="608" y="325" width="4" height="20" rx="2" fill="#222"/>
+                <path class="coloring-layer" d="M 885,365 L 890,310 L 895,365 Z" data-part="grass-pond"/>
+                <path d="M 865,365 Q 880,330 875,365 M 855,370 Q 885,320 890,370 M 892,365 Q 905,335 900,380" class="static-line"/>
+                <rect x="888" y="290" width="4" height="20" rx="2" fill="#222"/>
+
+                <path class="coloring-layer" d="M 690,385 C 685,380 695,370 705,375 C 715,370 725,380 720,385 C 725,390 715,395 705,392 C 695,395 685,390 690,385 Z" data-part="lilypad"/>
+                <path d="M 700,375 L 705,365 L 710,375 M 705,365 L 705,375" class="static-line"/>
+                <path class="coloring-layer" d="M 820,375 C 815,370 825,362 835,367 C 845,362 855,370 850,375 C 855,380 845,385 835,382 C 825,385 815,380 820,375 Z" data-part="lilypad"/>
+                <path d="M 830,367 L 835,358 L 840,367 M 835,358 L 835,367" class="static-line"/>
+
+
+                <path class="coloring-layer" d="M 610,230 C 580,210 570,160 600,130 C 620,100 670,80 720,95 C 760,80 820,100 840,140 C 865,180 850,230 820,250 C 790,270 770,260 740,255 C 710,270 640,260 610,230 Z" data-part="rowan-leaves"/>
+                
+                <path d="M 714,310 L 714,240 L 724,240 L 724,310 Z" fill="#fff" stroke="#222" stroke-width="1.5"/>
+                <path d="M 714,230 Q 670,200 640,215 M 724,225 Q 770,190 810,210 M 719,205 L 719,150 M 719,170 Q 685,150 670,165 M 719,165 Q 755,145 775,165" class="static-line" stroke-width="2"/>
+
+                <g class="coloring-layer" data-part="berries">
+                    <circle cx="635" cy="190" r="5"/><circle cx="642" cy="193" r="5"/><circle cx="648" cy="188" r="5"/><circle cx="638" cy="199" r="5"/><circle cx="645" cy="201" r="5"/><circle cx="652" cy="196" r="5"/><circle cx="642" cy="207" r="5"/><circle cx="649" cy="206" r="5"/>
+                </g>
+                <g class="coloring-layer" data-part="berries">
+                    <circle cx="675" cy="155" r="5"/><circle cx="682" cy="158" r="5"/><circle cx="688" cy="153" r="5"/><circle cx="678" cy="164" r="5"/><circle cx="685" cy="166" r="5"/><circle cx="692" cy="161" r="5"/><circle cx="683" cy="172" r="5"/>
+                </g>
+                <g class="coloring-layer" data-part="berries">
+                    <circle cx="710" cy="120" r="5"/><circle cx="717" cy="123" r="5"/><circle cx="723" cy="118" r="5"/><circle cx="713" cy="129" r="5"/><circle cx="720" cy="131" r="5"/><circle cx="727" cy="126" r="5"/>
+                </g>
+                <g class="coloring-layer" data-part="berries">
+                    <circle cx="765" cy="125" r="5"/><circle cx="772" cy="128" r="5"/><circle cx="778" cy="123" r="5"/><circle cx="768" cy="134" r="5"/><circle cx="775" cy="136" r="5"/><circle cx="782" cy="131" r="5"/><circle cx="773" cy="142" r="5"/>
+                </g>
+                <g class="coloring-layer" data-part="berries">
+                    <circle cx="810" cy="160" r="5"/><circle cx="817" cy="163" r="5"/><circle cx="823" cy="158" r="5"/><circle cx="813" cy="169" r="5"/><circle cx="820" cy="171" r="5"/><circle cx="827" cy="166" r="5"/><circle cx="818" cy="177" r="5"/>
+                </g>
+                <g class="coloring-layer" data-part="berries">
+                    <circle cx="815" cy="210" r="5"/><circle cx="822" cy="213" r="5"/><circle cx="828" cy="208" r="5"/><circle cx="818" cy="219" r="5"/><circle cx="825" cy="221" r="5"/><circle cx="832" cy="216" r="5"/>
+                </g>
+                <g class="coloring-layer" data-part="berries">
+                    <circle cx="760" cy="210" r="5"/><circle cx="767" cy="213" r="5"/><circle cx="773" cy="208" r="5"/><circle cx="763" cy="219" r="5"/><circle cx="770" cy="221" r="5"/><circle cx="777" cy="216" r="5"/>
+                </g>
+                <g class="coloring-layer" data-part="berries">
+                    <circle cx="715" cy="225" r="5"/><circle cx="722" cy="228" r="5"/><circle cx="728" cy="223" r="5"/><circle cx="718" cy="234" r="5"/><circle cx="725" cy="236" r="5"/><circle cx="732" cy="231" r="5"/>
+                </g>
+                <g class="coloring-layer" data-part="berries">
+                    <circle cx="670" cy="210" r="5"/><circle cx="677" cy="213" r="5"/><circle cx="683" cy="208" r="5"/><circle cx="673" cy="219" r="5"/><circle cx="680" cy="221" r="5"/><circle cx="687" cy="216" r="5"/>
+                </g>
+
+                <path class="coloring-layer" d="M 0,350 C 15,330 35,340 45,365 C 60,350 85,365 75,390 L 0,400 Z" data-part="soul-flower"/>
+                <path d="M 25,370 Q 30,350 40,380" class="static-line"/>
+            </svg>
+        </div>
+
+        <div class="quotes-container">
+            <h3 style="margin-top:0; color:#5c3a21; border-bottom: 2px solid #f4ede2; padding-bottom: 10px;">Цветовые маркеры текста</h3>
+            
+            <div class="quote-row">
+                <div class="target-circle" title="Кликните выбранным цветом"></div>
+                <input type="text" class="quote-input">
+            </div>
+            
+            <div class="quote-row">
+                <div class="target-circle" title="Кликните выбранным цветом"></div>
+                <input type="text" class="quote-input">
+            </div>
+            
+            <div class="quote-row">
+                <div class="target-circle" title="Кликните выбранным цветом"></div>
+                <input type="text" class="quote-input">
+            </div>
+            
+            <div class="quote-row">
+                <div class="target-circle" title="Кликните выбранным цветом"></div>
+                <input type="text" class="quote-input">
+            </div>
+
+            <div class="quote-row">
+                <div class="target-circle" title="Кликните выбранным цветом"></div>
+                <input type="text" class="quote-input">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedColor = null;
+
+        const paletteColors = document.querySelectorAll('.color-sample');
+        const targetCircles = document.querySelectorAll('.target-circle');
+        const coloringLayers = document.querySelectorAll('.coloring-layer');
+
+        // Выбор цвета в палитре
+        paletteColors.forEach(sample => {
+            sample.addEventListener('click', () => {
+                paletteColors.forEach(c => c.classList.remove('selected'));
+                sample.classList.add('selected');
+                selectedColor = sample.getAttribute('data-color');
+            });
+        });
+
+        // Закрашивание контрольных кругов справа
+        targetCircles.forEach(circle => {
+            circle.addEventListener('click', () => {
+                if (selectedColor) {
+                    circle.style.backgroundColor = selectedColor;
+                    circle.style.borderColor = selectedColor;
+                    circle.style.borderStyle = 'solid';
+                } else {
+                    alert('Сначала выберите цвет в палитре!');
+                }
+            });
+        });
+
+        // Закрашивание элементов иллюстрации
+        coloringLayers.forEach(layer => {
+            layer.addEventListener('click', (e) => {
+                if (selectedColor) {
+                    // Если кликнули по группе (например, гроздь ягод), красим все кружочки внутри неё
+                    if(layer.tagName === 'g') {
+                        const circles = layer.querySelectorAll('circle');
+                        circles.forEach(c => c.style.fill = selectedColor);
+                    } else {
+                        layer.style.fill = selectedColor;
+                    }
+                } else {
+                    alert('Сначала выберите цвет в палитре!');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
